@@ -1,5 +1,9 @@
 # dsh-peak-scheduler
 
+[![CI](https://img.shields.io/github/actions/workflow/status/keyiadiannao/dsh-peak-scheduler/ci.yml?branch=master)](https://github.com/keyiadiannao/dsh-peak-scheduler/actions)
+[![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![MCP](https://img.shields.io/badge/MCP-server-blue)](https://modelcontextprotocol.io)
+
 一个 **DeepSeek 峰谷计费的任务调度器**(MCP server)。它让 agent 把**非紧急**任务延迟到
 空闲(便宜)时段执行,省约 **50%**,同时**绝不阻碍用户**。
 
@@ -102,4 +106,21 @@ scheduler.mjs
     否则                      → 延迟到下一个空闲时段
 ```
 
-测试:`node test.mjs`(19 项断言,含时段边界、时区换算、deadline、队列)。
+## 诚实局限
+
+- **只覆盖"可延迟"任务**:它不能替你判断哪些任务紧急、哪些能等——这需要 agent/用户显式决策
+  (通过 `urgency` 参数,或决定是否调用 `defer_task`);
+- **时区硬编码北京时间**:峰谷以北京时间为准(DeepSeek 官方口径),不做本地时区换算;
+- **自动模式是"旁路观察者"**:`auto.mjs` 高峰攒消息、空闲整理成清单,但它**不会真正替你执行**
+  那些任务——产出的是一份建议清单,执行仍由 agent 决定;
+- **调度↔经验库的整合未接**:设计上是"Scheduler 管 when/if,KB 管知识"(注入 `AdviceProvider`
+  或事件总线),目前两者相互独立,没有组合闭环;
+- **定价表是快照**:`get_prices` 的价格/时段硬编码自 2026-08-17 官方公告,官方调整需手动更新。
+
+## 测试
+
+`node test.mjs`(19 项断言,含时段边界、时区换算、deadline、队列)。
+
+## License
+
+MIT
