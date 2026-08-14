@@ -1,0 +1,10 @@
+{
+  "name": "dsh-peak-scheduler",
+  "version": "0.1.0",
+  "description": "Peak/off-peak task scheduler for DeepSeek's time-of-use API pricing: defers non-urgent work to off-peak hours (2x cheaper) inside a deadline, without blocking the user.",
+  "type": "module",
+  "main": "index.mjs",
+  "license": "MIT",
+  "engines": { "node": ">=22.19" },
+  "keywords": ["deepseek", "peak-valley", "scheduler", "mcp", "cost", "time-of-use"]
+}

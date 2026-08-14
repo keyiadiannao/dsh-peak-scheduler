@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "pollMs": 30000,
+  "sessionsRoot": "~/.dsh/sessions",
+  "sessionDir": "",
+  "summaryFile": "summary.json"
+}
